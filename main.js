@@ -10,7 +10,7 @@
 
 async function getWeatherLocation(location) {
     try {
-        const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=eeb1fadb896d635a3715581d7cb26286`)
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=eeb1fadb896d635a3715581d7cb26286`)
         const weatherData = response.json();
         return weatherData;
     } catch {
@@ -37,7 +37,7 @@ async function displayWeather(location) {
     const weatherData = await getWeatherLocation(location);
     const data = await parseWeatherData(weatherData);
     const iconCode = data.status[0].icon;
-    const iconurl = `http://openweathermap.org/img/w/${iconCode}.png`;
+    const iconurl = `https://openweathermap.org/img/w/${iconCode}.png`;
     const icon = document.querySelector('.icon');
     icon.src = iconurl;
     const temp_dom = document.querySelector('.temp');
