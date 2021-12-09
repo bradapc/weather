@@ -4,6 +4,8 @@
     submitLocation.addEventListener('click', () => {
         displayWeather(locationInput.value);
     })
+    const extraInfoButton = document.querySelector('.options-btn-cont');
+    extraInfoButton.addEventListener('click', transformExtraInfo);
 })();
 
 async function getWeatherLocation(location) {
@@ -44,7 +46,8 @@ async function displayWeather(location) {
     status_dom = document.querySelector('.status');
     desc_dom = document.querySelector('.desc');
     status_dom.textContent = data.status[0].main;
-    desc_dom.textContent = data.status[0].description;
+    const desc = capitalizeString(data.status[0].description);
+    desc_dom.textContent = desc;
     const location_dom = document.querySelector('.search-location');
     location_dom.textContent = data.name;
     const date = new Date().toLocaleDateString();
@@ -60,10 +63,34 @@ async function displayWeather(location) {
     windspeed_dom.textContent = `${data.wind.speed} m/s`;
     const feelslikeTemp = convertTemp(data.main.feels_like);
     feelslike_dom.textContent = `${feelslikeTemp} °C`;
+    const weatherdisplay = document.querySelector('.weather-result');
+    weatherdisplay.style.display = 'block';
 }
 
 function convertTemp(temp) {
     let tempInCelsius = Math.floor(temp - 273.15);
     let tempInFahrenheit = Math.floor(tempInCelsius * (9/5) + 32);
     return tempInCelsius;
+}
+
+function capitalizeString(str) {
+    const strArray = str.split('');
+    for(let i = 0; i < strArray.length; i++) {
+        if(i === 0 || strArray[i - 1] === ' ') {
+            strArray[i] = strArray[i].toUpperCase();
+        }
+    }
+    return strArray.join('');
+}
+
+function transformExtraInfo() {
+    const extraInfo = document.querySelector('.extra-info');
+    const optionsButton = document.querySelector('.options-button');
+    if(extraInfo.style.display == 'flex') {
+        extraInfo.style.display = 'none';
+        optionsButton.classList = 'options-button';
+    } else {
+        extraInfo.style.display = 'flex';
+        optionsButton.classList = 'options-button down';
+    }
 }
